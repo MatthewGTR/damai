@@ -19,8 +19,8 @@ export function AboutUs() {
         description="Learn about Pusat Jagaan Warga Tua Damai - established since 2000, caring for 111 elderly residents with 12 dedicated staff. Monthly expenses, locations, and how we help homeless seniors in Malaysia."
         keywords="about pusat jagaan, elderly care malaysia, nursing home information, old folk home cheras, senior care faqs, nursing home expenses, elderly care center malaysia, 乐善社老人残障中心"
         breadcrumbs={[
-          { name: 'Home', item: 'https://your-domain.com' },
-          { name: 'About Us', item: 'https://your-domain.com/about' }
+          { name: 'Home', item: 'https://pusatjagaanwargatuadamai.com' },
+          { name: 'About Us', item: 'https://pusatjagaanwargatuadamai.com/about' }
         ]}
       />
       <nav className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">

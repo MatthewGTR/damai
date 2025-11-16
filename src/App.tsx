@@ -108,7 +108,7 @@ function App() {
         description="Non-profit elderly care center in Kuala Lumpur providing 24/7 compassionate support for 111 residents. Donate to help provide meals, healthcare, and comfort for seniors in need."
         keywords="pusat jagaan warga tua damai, elderly care malaysia, old folk home kuala lumpur, nursing home cheras, senior care center, donate to elderly, charity malaysia, elder support, nursing home malaysia, elderly home KL, 乐善社老人残障中心"
         breadcrumbs={[
-          { name: 'Home', item: 'https://your-domain.com' }
+          { name: 'Home', item: 'https://pusatjagaanwargatuadamai.com' }
         ]}
       />
       <nav className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">

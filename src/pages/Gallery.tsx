@@ -86,8 +86,8 @@ export function Gallery() {
         description="View photos of our elderly residents, care facilities, and daily activities at Pusat Jagaan Warga Tua Damai. See how we provide compassionate care for 111 seniors in Kuala Lumpur."
         keywords="elderly care photos, nursing home gallery, old folk home pictures, senior care images, pusat jagaan gallery, elderly care malaysia photos, 乐善社老人残障中心图库"
         breadcrumbs={[
-          { name: 'Home', item: 'https://your-domain.com' },
-          { name: 'Gallery', item: 'https://your-domain.com/gallery' }
+          { name: 'Home', item: 'https://pusatjagaanwargatuadamai.com' },
+          { name: 'Gallery', item: 'https://pusatjagaanwargatuadamai.com/gallery' }
         ]}
       />
       <nav className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">

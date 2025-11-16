@@ -4,4 +4,4 @@ Disallow: /admin/
 Disallow: /admin/login
 Disallow: /admin/dashboard
 
-Sitemap: https://your-domain.com/sitemap.xml
+Sitemap: https://pusatjagaanwargatuadamai.com/sitemap.xml

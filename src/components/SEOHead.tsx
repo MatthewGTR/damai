@@ -13,11 +13,11 @@ export function SEOHead({
   title = 'Pusat Jagaan Warga Tua Damai - Support Elderly Care',
   description = 'Support elderly care at Pusat Jagaan Warga Tua Damai. Make donations to help provide quality care, meals, healthcare, and comfort for seniors in need. Every contribution makes a difference.',
   keywords = 'old folk home, elderly care, senior care, donation, charity, elder support, nursing home, senior citizens, elderly assistance, donate to elderly, pusat jagaan',
-  ogImage = 'https://your-domain.com/image.png',
-  breadcrumbs = [{ name: 'Home', item: 'https://your-domain.com' }],
+  ogImage = 'https://pusatjagaanwargatuadamai.com/image.png',
+  breadcrumbs = [{ name: 'Home', item: 'https://pusatjagaanwargatuadamai.com' }],
 }: SEOHeadProps) {
   const location = useLocation();
-  const currentUrl = `https://your-domain.com${location.pathname}`;
+  const currentUrl = `https://pusatjagaanwargatuadamai.com${location.pathname}`;
 
   useEffect(() => {
     document.title = title;

@@ -19,8 +19,8 @@ export function Contact() {
         description="Contact Pusat Jagaan Warga Tua Damai elderly care center. Find our addresses in Cheras, Kuala Lumpur, banking details for donations, and how to support our mission of caring for seniors."
         keywords="contact pusat jagaan, elderly care contact, nursing home address, old folk home location, donate elderly care, cheras nursing home contact, support elderly malaysia, 乐善社老人残障中心联系"
         breadcrumbs={[
-          { name: 'Home', item: 'https://your-domain.com' },
-          { name: 'Contact', item: 'https://your-domain.com/contact' }
+          { name: 'Home', item: 'https://pusatjagaanwargatuadamai.com' },
+          { name: 'Contact', item: 'https://pusatjagaanwargatuadamai.com/contact' }
         ]}
       />
       <nav className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
