@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Heart, Phone, Mail, MapPin, Building2, AlertTriangle, Clock, HandHeart, LogIn, LayoutDashboard, X, Landmark, ChevronLeft, ChevronRight, Home, Image as ImageIcon } from 'lucide-react';
 import { UpdatesFeed } from './components/UpdatesFeed';
+import { SEOHead } from './components/SEOHead';
 import { supabase } from './lib/supabase';
 
 interface GalleryImage {
@@ -102,6 +103,14 @@ function App() {
 
   return (
     <div className="min-h-screen bg-white">
+      <SEOHead
+        title="Pusat Jagaan Warga Tua Damai - Elderly Care & Support Center"
+        description="Non-profit elderly care center in Kuala Lumpur providing 24/7 compassionate support for 111 residents. Donate to help provide meals, healthcare, and comfort for seniors in need."
+        keywords="pusat jagaan warga tua damai, elderly care malaysia, old folk home kuala lumpur, nursing home cheras, senior care center, donate to elderly, charity malaysia, elder support, nursing home malaysia, elderly home KL, 乐善社老人残障中心"
+        breadcrumbs={[
+          { name: 'Home', item: 'https://your-domain.com' }
+        ]}
+      />
       <nav className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20">
@@ -172,7 +181,7 @@ function App() {
         <div className="absolute inset-0">
           <img
             src="/1111.jpg"
-            alt="Our residents at Pusat Jagaan Warga Tua Damai"
+            alt="Elderly residents receiving compassionate care at Pusat Jagaan Warga Tua Damai nursing home in Cheras, Kuala Lumpur"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/60"></div>

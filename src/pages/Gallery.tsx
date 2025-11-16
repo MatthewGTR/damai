@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { Heart, LogIn, LayoutDashboard, Home, Image as ImageIcon, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
+import { SEOHead } from '../components/SEOHead';
 
 interface GalleryImage {
   id: string;
@@ -80,6 +81,15 @@ export function Gallery() {
 
   return (
     <div className="min-h-screen bg-white">
+      <SEOHead
+        title="Gallery - Pusat Jagaan Warga Tua Damai | Photos & Memories"
+        description="View photos of our elderly residents, care facilities, and daily activities at Pusat Jagaan Warga Tua Damai. See how we provide compassionate care for 111 seniors in Kuala Lumpur."
+        keywords="elderly care photos, nursing home gallery, old folk home pictures, senior care images, pusat jagaan gallery, elderly care malaysia photos, 乐善社老人残障中心图库"
+        breadcrumbs={[
+          { name: 'Home', item: 'https://your-domain.com' },
+          { name: 'Gallery', item: 'https://your-domain.com/gallery' }
+        ]}
+      />
       <nav className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20">

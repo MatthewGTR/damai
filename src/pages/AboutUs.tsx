@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { Heart, LogIn, LayoutDashboard, Home, Image as ImageIcon, Phone } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { SEOHead } from '../components/SEOHead';
 
 export function AboutUs() {
   const navigate = useNavigate();
@@ -13,6 +14,15 @@ export function AboutUs() {
 
   return (
     <div className="min-h-screen bg-white">
+      <SEOHead
+        title="About Us - Pusat Jagaan Warga Tua Damai | FAQs & Information"
+        description="Learn about Pusat Jagaan Warga Tua Damai - established since 2000, caring for 111 elderly residents with 12 dedicated staff. Monthly expenses, locations, and how we help homeless seniors in Malaysia."
+        keywords="about pusat jagaan, elderly care malaysia, nursing home information, old folk home cheras, senior care faqs, nursing home expenses, elderly care center malaysia, 乐善社老人残障中心"
+        breadcrumbs={[
+          { name: 'Home', item: 'https://your-domain.com' },
+          { name: 'About Us', item: 'https://your-domain.com/about' }
+        ]}
+      />
       <nav className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20">
@@ -125,7 +135,7 @@ export function AboutUs() {
               <div className="mt-4 bg-gray-50 rounded-lg p-3 sm:p-4">
                 <img
                   src="/WhatsApp Image 2025-11-04 at 17.26.42.jpeg"
-                  alt="Monthly Expenses Breakdown"
+                  alt="Detailed monthly expenses breakdown chart showing RM 105,935 operational costs for Pusat Jagaan Warga Tua Damai elderly care center"
                   className="w-full h-auto rounded-lg shadow-md"
                 />
               </div>
