@@ -38,6 +38,16 @@ export function SEOHead({
         gtag('config', 'AW-17763571978');
       `;
       document.head.appendChild(gtagConfigScript);
+
+      const conversionScript = document.createElement('script');
+      conversionScript.textContent = `
+        gtag('event', 'conversion', {
+          'send_to': 'AW-17763571978/7bI-COLs8scbEIqyqpZC',
+          'value': 1.0,
+          'currency': 'SGD'
+        });
+      `;
+      document.head.appendChild(conversionScript);
     }
 
     const metaTags = [
