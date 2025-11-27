@@ -22,6 +22,24 @@ export function SEOHead({
   useEffect(() => {
     document.title = title;
 
+    // Add Google Analytics tag
+    const existingGtagScript = document.querySelector('script[src*="googletagmanager.com/gtag"]');
+    if (!existingGtagScript) {
+      const gtagScript = document.createElement('script');
+      gtagScript.async = true;
+      gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=AW-17763571978';
+      document.head.appendChild(gtagScript);
+
+      const gtagConfigScript = document.createElement('script');
+      gtagConfigScript.textContent = `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'AW-17763571978');
+      `;
+      document.head.appendChild(gtagConfigScript);
+    }
+
     const metaTags = [
       { name: 'description', content: description },
       { name: 'keywords', content: keywords },
