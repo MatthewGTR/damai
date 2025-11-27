@@ -118,6 +118,13 @@ export const UpdatesFeed = () => {
     }
   };
 
+  const getCurrentUpdate = () => {
+    if (!enlargedMedia) return null;
+    const visibleUpdates = allUpdates.slice(0, visibleCount);
+    const mediaUpdates = visibleUpdates.filter(u => u.media_url && u.media_type);
+    return mediaUpdates[enlargedMedia.index];
+  };
+
   const navigateMedia = (direction: 'prev' | 'next') => {
     if (!enlargedMedia) return;
 
@@ -257,69 +264,100 @@ export const UpdatesFeed = () => {
         )}
       </div>
 
-      {enlargedMedia && (
-        <div
-          className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4"
-          onClick={() => setEnlargedMedia(null)}
-        >
-          <button
-            className="absolute top-2 right-2 sm:top-4 sm:right-4 text-white hover:text-gray-300 transition-colors z-10"
+      {enlargedMedia && (() => {
+        const currentUpdate = getCurrentUpdate();
+        return (
+          <div
+            className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center"
             onClick={() => setEnlargedMedia(null)}
-            aria-label="Close"
           >
-            <X className="w-6 h-6 sm:w-8 sm:h-8" />
-          </button>
+            <button
+              className="absolute top-2 right-2 sm:top-4 sm:right-4 text-white hover:text-gray-300 transition-colors z-20"
+              onClick={() => setEnlargedMedia(null)}
+              aria-label="Close"
+            >
+              <X className="w-6 h-6 sm:w-8 sm:h-8" />
+            </button>
 
-          {visibleUpdates.filter(u => u.media_url && u.media_type).length > 1 && (
-            <>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  navigateMedia('prev');
-                }}
-                className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-12 h-12 sm:w-14 sm:h-14 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center transition-all hover:scale-110 z-10"
-                aria-label="Previous media"
-              >
-                <ChevronLeft className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
-              </button>
+            <div className="flex flex-col lg:flex-row items-center justify-center gap-4 lg:gap-6 w-full h-full p-4 lg:p-8">
+              <div className="relative flex items-center justify-center flex-1 w-full lg:w-auto h-1/2 lg:h-full">
+                {visibleUpdates.filter(u => u.media_url && u.media_type).length > 1 && (
+                  <>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigateMedia('prev');
+                      }}
+                      className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center transition-all hover:scale-110 z-10"
+                      aria-label="Previous media"
+                    >
+                      <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-white" />
+                    </button>
 
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  navigateMedia('next');
-                }}
-                className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-12 h-12 sm:w-14 sm:h-14 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center transition-all hover:scale-110 z-10"
-                aria-label="Next media"
-              >
-                <ChevronRight className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
-              </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigateMedia('next');
+                      }}
+                      className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center transition-all hover:scale-110 z-10"
+                      aria-label="Next media"
+                    >
+                      <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-white" />
+                    </button>
 
-              <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 bg-black/70 backdrop-blur-sm px-3 sm:px-4 py-1.5 sm:py-2 rounded-full z-10">
-                <div className="text-white text-xs sm:text-sm font-medium">
-                  {enlargedMedia.index + 1} / {visibleUpdates.filter(u => u.media_url && u.media_type).length}
-                </div>
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/70 backdrop-blur-sm px-3 sm:px-4 py-1.5 sm:py-2 rounded-full z-10">
+                      <div className="text-white text-xs sm:text-sm font-medium">
+                        {enlargedMedia.index + 1} / {visibleUpdates.filter(u => u.media_url && u.media_type).length}
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                {enlargedMedia.type === 'video' ? (
+                  <video
+                    src={enlargedMedia.url}
+                    controls
+                    className="max-w-full max-h-full"
+                    onClick={(e) => e.stopPropagation()}
+                    autoPlay
+                  />
+                ) : (
+                  <img
+                    src={enlargedMedia.url}
+                    alt="Enlarged view"
+                    className="max-w-full max-h-full object-contain"
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                )}
               </div>
-            </>
-          )}
 
-          {enlargedMedia.type === 'video' ? (
-            <video
-              src={enlargedMedia.url}
-              controls
-              className="max-w-full max-h-full"
-              onClick={(e) => e.stopPropagation()}
-              autoPlay
-            />
-          ) : (
-            <img
-              src={enlargedMedia.url}
-              alt="Enlarged view"
-              className="max-w-full max-h-full object-contain"
-              onClick={(e) => e.stopPropagation()}
-            />
-          )}
-        </div>
-      )}
+              {currentUpdate && currentUpdate.content && (
+                <div
+                  className="w-full lg:w-96 xl:w-[28rem] h-1/2 lg:h-full bg-white/5 backdrop-blur-md rounded-xl p-4 sm:p-6 overflow-y-auto"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="flex items-center gap-3 mb-4 pb-4 border-b border-white/10">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-red-500 to-rose-600 flex items-center justify-center flex-shrink-0">
+                      <Heart className="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="currentColor" />
+                    </div>
+                    <div>
+                      <div className="font-bold text-sm sm:text-base text-white">Pusat Jagaan Warga Tua Damai</div>
+                      <div className="flex items-center gap-1.5 text-xs sm:text-sm text-white/70">
+                        <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
+                        {formatDate(currentUpdate.created_at)}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="text-white/90 whitespace-pre-wrap leading-relaxed text-sm sm:text-base">
+                    {currentUpdate.content}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      })()}
     </section>
   );
 };
