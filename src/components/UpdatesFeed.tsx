@@ -211,25 +211,22 @@ export const UpdatesFeed = () => {
 
               {update.content && (
                 <div className="mb-3 sm:mb-4">
-                  <p className="text-gray-900 whitespace-pre-wrap leading-relaxed text-sm sm:text-base md:text-lg">
+                  <p
+                    className="text-gray-900 whitespace-pre-wrap leading-relaxed text-sm sm:text-base md:text-lg cursor-pointer hover:text-gray-700 transition-colors"
+                    onClick={() => navigate(`/post/${update.id}`)}
+                  >
                     {getTruncatedContent(update.content, update.id).text}
                   </p>
                   {getTruncatedContent(update.content, update.id).needsTruncation && (
                     <button
-                      onClick={() => toggleExpanded(update.id)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/post/${update.id}`);
+                      }}
                       className="mt-2 inline-flex items-center gap-1 text-red-600 hover:text-red-700 font-medium text-xs sm:text-sm transition-colors"
                     >
-                      {expandedPosts.has(update.id) ? (
-                        <>
-                          <ChevronUp className="w-4 h-4" />
-                          Show Less
-                        </>
-                      ) : (
-                        <>
-                          <ChevronDown className="w-4 h-4" />
-                          Show More
-                        </>
-                      )}
+                      <ExternalLink className="w-4 h-4" />
+                      Read Full Post
                     </button>
                   )}
                 </div>
@@ -238,7 +235,7 @@ export const UpdatesFeed = () => {
               {update.media_url && (
                 <div
                   className="rounded-lg sm:rounded-xl overflow-hidden border-2 border-gray-300 shadow-md cursor-pointer hover:border-red-400 transition-colors"
-                  onClick={() => handleMediaClick(update, visibleUpdates.filter(u => u.media_url && u.media_type).findIndex(u => u.id === update.id))}
+                  onClick={() => navigate(`/post/${update.id}`)}
                 >
                   {update.media_type === 'video' ? (
                     <video
@@ -250,7 +247,7 @@ export const UpdatesFeed = () => {
                   ) : (
                     <img
                       src={update.media_url}
-                      alt="Update image - click to enlarge"
+                      alt="Update image - click to view full post"
                       className="w-full max-h-[400px] sm:max-h-[500px] md:max-h-[600px] object-cover hover:opacity-95 transition-opacity"
                     />
                   )}
