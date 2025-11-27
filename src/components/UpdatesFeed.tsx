@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Heart, Clock, ChevronDown, ChevronUp, X, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 
 interface Update {
@@ -12,6 +12,7 @@ interface Update {
 }
 
 export const UpdatesFeed = () => {
+  const navigate = useNavigate();
   const [allUpdates, setAllUpdates] = useState<Update[]>([]);
   const [visibleCount, setVisibleCount] = useState(3);
   const [loading, setLoading] = useState(true);
@@ -199,13 +200,13 @@ export const UpdatesFeed = () => {
                     {formatDate(update.created_at)}
                   </div>
                 </div>
-                <Link
-                  to={`/post/${update.id}`}
+                <button
+                  onClick={() => navigate(`/post/${update.id}`)}
                   className="p-2 hover:bg-white rounded-lg transition-colors group"
                   title="View full post"
                 >
                   <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500 group-hover:text-red-600 transition-colors" />
-                </Link>
+                </button>
               </div>
 
               {update.content && (
