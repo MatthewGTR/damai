@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Heart, Clock, ChevronDown, ChevronUp } from 'lucide-react';
+import { Heart, Clock, ChevronDown, ChevronUp, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
 interface Update {
@@ -15,10 +15,28 @@ export const UpdatesFeed = () => {
   const [visibleCount, setVisibleCount] = useState(3);
   const [loading, setLoading] = useState(true);
   const [expandedPosts, setExpandedPosts] = useState<Set<string>>(new Set());
+  const [enlargedMedia, setEnlargedMedia] = useState<{ url: string; type: 'image' | 'video'; index: number } | null>(null);
 
   useEffect(() => {
     fetchUpdates();
   }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!enlargedMedia) return;
+
+      if (e.key === 'Escape') {
+        setEnlargedMedia(null);
+      } else if (e.key === 'ArrowLeft') {
+        navigateMedia('prev');
+      } else if (e.key === 'ArrowRight') {
+        navigateMedia('next');
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [enlargedMedia, allUpdates]);
 
   const fetchUpdates = async () => {
     try {
@@ -88,6 +106,40 @@ export const UpdatesFeed = () => {
       month: 'short',
       day: 'numeric',
     });
+  };
+
+  const handleMediaClick = (update: Update, index: number) => {
+    if (update.media_url && update.media_type) {
+      setEnlargedMedia({
+        url: update.media_url,
+        type: update.media_type,
+        index: index
+      });
+    }
+  };
+
+  const navigateMedia = (direction: 'prev' | 'next') => {
+    if (!enlargedMedia) return;
+
+    const visibleUpdates = allUpdates.slice(0, visibleCount);
+    const mediaUpdates = visibleUpdates.filter(u => u.media_url && u.media_type);
+    const currentIndex = enlargedMedia.index;
+
+    let newIndex: number;
+    if (direction === 'prev') {
+      newIndex = currentIndex === 0 ? mediaUpdates.length - 1 : currentIndex - 1;
+    } else {
+      newIndex = currentIndex === mediaUpdates.length - 1 ? 0 : currentIndex + 1;
+    }
+
+    const nextUpdate = mediaUpdates[newIndex];
+    if (nextUpdate && nextUpdate.media_url && nextUpdate.media_type) {
+      setEnlargedMedia({
+        url: nextUpdate.media_url,
+        type: nextUpdate.media_type,
+        index: newIndex
+      });
+    }
   };
 
   if (loading) {
@@ -168,18 +220,22 @@ export const UpdatesFeed = () => {
               )}
 
               {update.media_url && (
-                <div className="rounded-lg sm:rounded-xl overflow-hidden border-2 border-gray-300 shadow-md">
+                <div
+                  className="rounded-lg sm:rounded-xl overflow-hidden border-2 border-gray-300 shadow-md cursor-pointer hover:border-red-400 transition-colors"
+                  onClick={() => handleMediaClick(update, visibleUpdates.filter(u => u.media_url && u.media_type).findIndex(u => u.id === update.id))}
+                >
                   {update.media_type === 'video' ? (
                     <video
                       src={update.media_url}
                       controls
                       className="w-full max-h-[400px] sm:max-h-[500px] md:max-h-[600px]"
+                      onClick={(e) => e.stopPropagation()}
                     />
                   ) : (
                     <img
                       src={update.media_url}
-                      alt="Update"
-                      className="w-full max-h-[400px] sm:max-h-[500px] md:max-h-[600px] object-cover"
+                      alt="Update image - click to enlarge"
+                      className="w-full max-h-[400px] sm:max-h-[500px] md:max-h-[600px] object-cover hover:opacity-95 transition-opacity"
                     />
                   )}
                 </div>
@@ -200,6 +256,70 @@ export const UpdatesFeed = () => {
           </div>
         )}
       </div>
+
+      {enlargedMedia && (
+        <div
+          className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4"
+          onClick={() => setEnlargedMedia(null)}
+        >
+          <button
+            className="absolute top-2 right-2 sm:top-4 sm:right-4 text-white hover:text-gray-300 transition-colors z-10"
+            onClick={() => setEnlargedMedia(null)}
+            aria-label="Close"
+          >
+            <X className="w-6 h-6 sm:w-8 sm:h-8" />
+          </button>
+
+          {visibleUpdates.filter(u => u.media_url && u.media_type).length > 1 && (
+            <>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigateMedia('prev');
+                }}
+                className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-12 h-12 sm:w-14 sm:h-14 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center transition-all hover:scale-110 z-10"
+                aria-label="Previous media"
+              >
+                <ChevronLeft className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+              </button>
+
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigateMedia('next');
+                }}
+                className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-12 h-12 sm:w-14 sm:h-14 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center transition-all hover:scale-110 z-10"
+                aria-label="Next media"
+              >
+                <ChevronRight className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+              </button>
+
+              <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 bg-black/70 backdrop-blur-sm px-3 sm:px-4 py-1.5 sm:py-2 rounded-full z-10">
+                <div className="text-white text-xs sm:text-sm font-medium">
+                  {enlargedMedia.index + 1} / {visibleUpdates.filter(u => u.media_url && u.media_type).length}
+                </div>
+              </div>
+            </>
+          )}
+
+          {enlargedMedia.type === 'video' ? (
+            <video
+              src={enlargedMedia.url}
+              controls
+              className="max-w-full max-h-full"
+              onClick={(e) => e.stopPropagation()}
+              autoPlay
+            />
+          ) : (
+            <img
+              src={enlargedMedia.url}
+              alt="Enlarged view"
+              className="max-w-full max-h-full object-contain"
+              onClick={(e) => e.stopPropagation()}
+            />
+          )}
+        </div>
+      )}
     </section>
   );
 };
