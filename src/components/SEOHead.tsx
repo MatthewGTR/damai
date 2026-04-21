@@ -22,34 +22,6 @@ export function SEOHead({
   useEffect(() => {
     document.title = title;
 
-    // Add Google Analytics tag
-    const existingGtagScript = document.querySelector('script[src*="googletagmanager.com/gtag"]');
-    if (!existingGtagScript) {
-      const gtagScript = document.createElement('script');
-      gtagScript.async = true;
-      gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=AW-17763571978';
-      document.head.appendChild(gtagScript);
-
-      const gtagConfigScript = document.createElement('script');
-      gtagConfigScript.textContent = `
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'AW-17763571978');
-      `;
-      document.head.appendChild(gtagConfigScript);
-
-      const conversionScript = document.createElement('script');
-      conversionScript.textContent = `
-        gtag('event', 'conversion', {
-          'send_to': 'AW-17763571978/7bI-COLs8scbEIqyqpZC',
-          'value': 1.0,
-          'currency': 'SGD'
-        });
-      `;
-      document.head.appendChild(conversionScript);
-    }
-
     const metaTags = [
       { name: 'description', content: description },
       { name: 'keywords', content: keywords },
