@@ -1,7 +1,2 @@
 User-agent: *
-Allow: /
-Disallow: /admin/
-Disallow: /admin/login
-Disallow: /admin/dashboard
-
-Sitemap: https://pusatjagaanwargatuadamai.com/sitemap.xml
+Disallow: /
